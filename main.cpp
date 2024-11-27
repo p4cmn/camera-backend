@@ -5,7 +5,16 @@
 #include "controller/mediacontroller.h"
 #include "service/mediaservice.h"
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
 int main(int argc, char* argv[]) {
+
+#ifdef Q_OS_WIN
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
+#endif
+
     QCoreApplication app(argc, argv);
 
     QString usbIdsFilePath = "D:\\PROGRAMMING\\C++\\QT\\Camera-backend\\usb.ids";

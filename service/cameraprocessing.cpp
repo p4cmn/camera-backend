@@ -12,6 +12,10 @@
 QMap<QString, QString> vendorMap;
 QMap<QPair<QString, QString>, QString> deviceMap;
 
+QString getCurrentTimestamp() {
+    return QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss");
+}
+
 void initializeWMF() {
     HRESULT status = MFStartup(MF_VERSION);
     if (FAILED(status)) {
@@ -1019,7 +1023,7 @@ QList<QString> recordVideoWithAudioFromAllCameras(const QString& basePath, int d
                 break;
             }
         }
-        QString outputPath = QString("%1/video_camera_%2.avi").arg(basePath).arg(i);
+        QString outputPath = QString("video_camera_%1_%2.avi").arg(i).arg(getCurrentTimestamp());
         if (!recordFromDevice(videoDevices[i], linkedAudioDevice, outputPath, durationSeconds, fps)) {
             qCritical() << "Failed to record video from device:" << getDeviceName(videoDevices[i]);
         } else {

@@ -1,6 +1,8 @@
 QT = core gui network
 
-CONFIG += c++21 cmdline
+CONFIG += c++21
+CONFIG -= console
+CONFIG += windows
 
 INCLUDEPATH += D:/opencv_install/include
 

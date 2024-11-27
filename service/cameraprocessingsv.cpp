@@ -5,6 +5,10 @@
 #include <QThread>
 #include <opencv2/opencv.hpp>
 
+QString getCurrentTimestampSV() {
+    return QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss");
+}
+
 QVector<int> getConnectedCameras() {
     QVector<int> cameras;
     int cameraIndex = 0;
@@ -239,7 +243,7 @@ QList<QPair<QString, QByteArray>> capturePhotoFromAllCameras() {
         std::vector<uchar> buf;
         cv::imencode(".jpg", frame, buf);
         QByteArray imageData(reinterpret_cast<const char*>(buf.data()), buf.size());
-        QString fileName = QString("photo_camera_%1.jpg").arg(cameraIndex);
+        QString fileName = QString("photo_camera_%1_%2.jpg").arg(cameraIndex).arg(getCurrentTimestampSV());
         photos.append(qMakePair(fileName, imageData));
         cap.release();
     }
@@ -270,7 +274,7 @@ QList<QString> recordVideoFromAllCameras(const QString& basePath, int durationSe
         }
         int frameWidth = static_cast<int>(cap.get(cv::CAP_PROP_FRAME_WIDTH));
         int frameHeight = static_cast<int>(cap.get(cv::CAP_PROP_FRAME_HEIGHT));
-        QString filename = QString("%1/video_camera_%2.mp4").arg(basePath).arg(cameraIndex);
+        QString filename = QString("video_camera_%1_%2.mp4").arg(cameraIndex).arg(getCurrentTimestampSV());
         cv::VideoWriter writer(
             filename.toStdString(),
             cv::VideoWriter::fourcc('m', 'p', '4', 'v'),
